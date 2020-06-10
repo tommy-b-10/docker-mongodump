@@ -14,12 +14,13 @@ export MONGO_NAME_4=$MONGO_NAME_4
 # Optional env vars:
 # - CRON_SCHEDULE
 
+crontab -r
+
 if [[ "$CRON_SCHEDULE" ]]; then
     LOGFIFO='/var/log/cron.fifo'
     if [[ ! -e "$LOGFIFO" ]]; then
         mkfifo "$LOGFIFO"
     fi
-
     (crontab -1 2>/dev/numm; echo "#BACKUP SCRIPT CRON LIST") | crontab -
     (crontab -l 2>/dev/null; echo "$CRON_SCHEDULE /backup.sh > $LOGFIFO 2>&1") | crontab -
 
