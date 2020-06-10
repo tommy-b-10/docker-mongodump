@@ -1,7 +1,7 @@
-istepanov/mongodump
+tommy-b-10/mongodump
 ===================
 
-Docker image with `mongodump`, `cron` and AWS CLI to upload backups to AWS S3.
+Docker image with `mongodump`, `cron`.
 
 ### Environment variables
 
@@ -9,40 +9,21 @@ Docker image with `mongodump`, `cron` and AWS CLI to upload backups to AWS S3.
 |-----------------------|-------------|-------------------------|
 | MONGO_URI             | Mongo URI.  | `mongodb://mongo:27017` |
 | CRON_SCHEDULE         | Cron schedule. Leave empty to disable cron job. | `''` |
-| TARGET_S3_FOLDER      | Folder to upload backups. Leave it empty to disable upload to S3. **If enabled, backups are deleted from the local folder after a successful upload.** | `''` |
-| AWS_ACCESS_KEY_ID     | AWS Access Key ID. Leave empty if you want to use AWS IAM Role instead. | `''` |
-| AWS_SECRET_ACCESS_KEY | AWS Access Key ID. Leave empty if you want to use AWS IAM Role instead. | `''` |
+| MONGO_NAME            | Mongo Name  | `mongo`                 |
+| MONGO_URI_2           | Mongo 2 URI | `''`                      |
+| MONGO_NAME_2          | Mongo 2 Name| `''`                      |
+| MONGO_URI_3           | Mongo 3 URI | `''`                      |
+| MONGO_NAME_3          | Mongo 3 Name| `''`                      |
+| MONGO_URI_4           | Mongo 4 URI | `''`                      |
+| MONGO_NAME_4          | Mongo 4 Name| `''`                      |
 
 ### Example
 
-Run container with cron job (once a day at 1am), upload backups to AWS S3 folder:
+Run container with cron job (once a day at 1am):
 
       docker run -d \
         -v /path/to/target/folder:/backup \
         -e 'MONGO_URI=mongodb://mongo:27017' \
         -e 'CRON_SCHEDULE=0 1 * * *' \
-        -e 'TARGET_S3_FOLDER=s3://my_bucket/backup/' \
-        -e 'AWS_ACCESS_KEY_ID=my_aws_key' \
-        -e 'AWS_SECRET_ACCESS_KEY=my_aws_secret' \
-        istepanov/mongodump:4.2
-
-Docker Compose example (no S3 upload, keep backups in `mongo-backup` Docker volume):
-
-    version: '3'
-
-    services:
-      mongo:
-        image: "mongo:4.2"
-
-      mongo-backup:
-        image: "istepanov/mongodump:4.2"
-        volumes:
-          - mongo-backup:/backup
-        environment:
-          MONGO_URI: "mongodb://mongo:27017"
-          CRON_SCHEDULE: "0 1 * * *"
-        depends_on:
-          - mongo
-
-    volumes:
-      mongo-backup:
+        -e 'MONGO_NAME=tomsapp-db' \
+        tommy-b-10/mongodump:4.2
