@@ -13,9 +13,12 @@ export MONGO_NAME_4=$MONGO_NAME_4
 
 # Optional env vars:
 # - CRON_SCHEDULE
-crontab -r >/dev/null 2>&1
 
 if [[ "$CRON_SCHEDULE" ]]; then
+    
+    echo "" > new_cron.txt 2>/dev/null
+    cron new_cron.txt 2>/dev/null
+
     LOGFIFO='/var/log/cron.fifo'
     if [[ ! -e "$LOGFIFO" ]]; then
         mkfifo "$LOGFIFO"
