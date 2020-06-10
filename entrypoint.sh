@@ -36,6 +36,10 @@ if [[ "$CRON_SCHEDULE" ]]; then
         echo -e "$MONGO_URI_4\n$CRON_SCHEDULE /backup.sh > $LOGFIFO 2>&1" | crontab -
     fi
     
+    if [[ "$REMOVE_AFTER" ]]; then
+        echo -e "@daily find /backup/* -mtime +$REMOVE_AFTER -type f -delete > $LOGFIFO 2>&1" | crontab -
+    fi
+    
     crontab -l
     cron
     tail -f "$LOGFIFO"
