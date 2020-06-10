@@ -3,6 +3,13 @@
 set -e
 
 export MONGO_URI=${MONGO_URI:-mongodb://mongo:27017}
+export MONGO_NAME=${MONGO_NAME:-mongo}
+export MONGO_URI_2=$MONGO_URI_2
+export MONGO_NAME_2=$MONGO_NAME_2
+export MONGO_URI_3=$MONGO_URI_3
+export MONGO_NAME_3=$MONGO_NAME_3
+export MONGO_URI_4=$MONGO_URI_4
+export MONGO_NAME_4=$MONGO_NAME_4
 
 # Optional env vars:
 # - CRON_SCHEDULE
