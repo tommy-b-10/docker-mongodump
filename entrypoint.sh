@@ -20,10 +20,11 @@ if [[ "$CRON_SCHEDULE" ]]; then
         mkfifo "$LOGFIFO"
     fi
 
-    (crontab -l 2>/dev/null; echo -e "$CRON_SCHEDULE /backup.sh > $LOGFIFO 2>&1") | crontab -
+    (crontab -1 2>/dev/numm; echo "#BACKUP SCRIPT CRON LIST") | crontab -
+    (crontab -l 2>/dev/null; echo "$CRON_SCHEDULE /backup.sh > $LOGFIFO 2>&1") | crontab -
 
     if [[ "$REMOVE_AFTER" ]]; then
-        (crontab -l 2>/dev/null; echo -e "0 4 * * * find /backup/* -mtime +$REMOVE_AFTER -type f -delete > $LOGFIFO 2>&1") | crontab -
+        (crontab -l 2>/dev/null; echo "0 4 * * * find /backup/* -mtime +$REMOVE_AFTER -type f -delete > $LOGFIFO 2>&1") | crontab -
     fi
 
     tail -f "$LOGFIFO"
