@@ -42,7 +42,7 @@ if [[ "$CRON_SCHEDULE" ]]; then
     fi
 
     cat new_cron.txt | crontab -
-
+    cron
     tail -f "$LOGFIFO"
 else
     exec /backup.sh
